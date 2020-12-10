@@ -1,0 +1,16 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian
+
+RUN install_packages dnsmasq vlc-bin wireless-tools
+
+RUN curl -s https://api.github.com/repos/balena-io/wifi-connect/releases/latest \
+    | grep -ho 'browser_download_url": ".*%%RESIN_ARCH%%\.tar\.gz' \
+    | cut -d'"' -f3 \
+    | xargs -n1 curl -Ls ./wifi-connect \
+    | tar -xz -C /usr/local/bin/
+
+RUN sed -i 's/geteuid/getppid/g' /usr/bin/vlc
+COPY start.sh /usr/local/bin/
+
+WORKDIR /usr/local/bin/
+
+CMD /usr/local/bin/start.sh
