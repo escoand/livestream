@@ -2,7 +2,7 @@
 
 splash() {
     fbi -a -d /dev/fb0 "/usr/local/share/splash/splash-$1.jpg" </dev/null
-)
+}
 
 # check wifi
 splash wifi
