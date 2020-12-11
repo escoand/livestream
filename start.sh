@@ -10,5 +10,5 @@ else
 fi
 
 # start stream
-youtube-dl -f mp4 -g "$STREAM_URL" |
+python3 /usr/local/bin/youtube-dl -f mp4 -g "$STREAM_URL" |
 xargs -tr omxplayer -o hdmi
