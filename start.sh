@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SPLASH_SOCK=/var/run/fbi.sock
 
