@@ -1,6 +1,6 @@
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian
 
-RUN install_packages dnsmasq vlc-bin wireless-tools
+RUN install_packages dnsmasq omxplayer python wireless-tools
 
 RUN curl -s https://api.github.com/repos/balena-io/wifi-connect/releases/latest \
     | grep -ho 'browser_download_url": ".*%%RESIN_ARCH%%\.tar\.gz' \
@@ -8,9 +8,9 @@ RUN curl -s https://api.github.com/repos/balena-io/wifi-connect/releases/latest 
     | xargs -n1 curl -Ls ./wifi-connect \
     | tar -xz -C /usr/local/bin/
 
-RUN sed -i 's/geteuid/getppid/g' /usr/bin/vlc
-COPY start.sh /usr/local/bin/
+RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl \
+    && chmod a+rx /usr/local/bin/youtube-dl
 
-WORKDIR /usr/local/bin/
+COPY start.sh /usr/local/bin/
 
 CMD /usr/local/bin/start.sh

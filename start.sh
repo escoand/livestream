@@ -10,6 +10,5 @@ else
 fi
 
 # start stream
-/usr/bin/cvlc -vvv "$STREAM_URL"
-
-sleep infinity
+VIDEO_URL=$(youtube-dl -g "$STREAM_URL")
+omxplayer "$VIDEO_URL"
