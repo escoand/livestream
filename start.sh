@@ -28,3 +28,5 @@ fi
 splash stream
 python3 /usr/local/bin/youtube-dl -f mp4 -g "$STREAM_URL" |
 xargs -tr omxplayer -o hdmi
+
+sleep infinity
