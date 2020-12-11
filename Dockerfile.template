@@ -2,7 +2,7 @@ FROM alpine AS builder
 
 COPY splash.sh /tmp/
 
-RUN apk add --no-cache curl imagemagick \
+RUN apk add --no-cache curl imagemagick ttf-liberation \
     && /tmp/splash.sh
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine

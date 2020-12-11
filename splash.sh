@@ -3,6 +3,7 @@
 SPLASH_URL="https://unsplash.com/photos/19iL-6uC5C4/download?force=true"
 STROKE_COLOR=none
 FILL_COLOR=white
+FONT=Liberation-Sans
 DIMENSIONS=1920x1080
 
 # download image
@@ -24,9 +25,11 @@ while read -r NAME TEXT; do
 		+repage \
 		-background none \
 		-fill "$FILL_COLOR" \
+		-font "$FONT" \
 		-gravity south \
 		-pointsize 40 \
 		-stroke "$STROKE_COLOR" \
 		-annotate +0+40 "$TEXT" \
+		-strip \
 		"/tmp/output/splash-$NAME.png"
 done
