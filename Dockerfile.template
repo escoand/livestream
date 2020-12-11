@@ -19,6 +19,6 @@ RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/yout
     && chmod a+rx /usr/local/bin/youtube-dl
 
 COPY start.sh /usr/local/bin/
-COPY --from=builder /tmp/output/* /usr/local/share/splash/
+COPY --from=builder /tmp/splash/* /usr/local/share/splash/
 
 CMD /usr/local/bin/start.sh

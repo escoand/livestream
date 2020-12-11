@@ -10,14 +10,14 @@ DIMENSIONS=1280x720
 curl -Ls "$SPLASH_URL" -o /tmp/splash.tmp &&
 
 # create splash images
-mkdir -p /tmp/output &&
+mkdir -p /tmp/splash &&
 cat <<'END' |
-boot	Anwendung wird gestartet
-wifi	Internetverbindung wird getestet
-nowifi	Bitte zum W-Lan "WIFI Connect" verbinden und Zugangsdaten eingeben
-stream	Video wird geladen
+boot	png	Anwendung wird gestartet
+wifi	jpg	Internetverbindung wird getestet
+nowifi	jpg	Bitte zum W-Lan "WIFI Connect" verbinden und Zugangsdaten eingeben
+stream	jpg	Video wird geladen
 END
-while read -r NAME TEXT; do
+while read -r NAME EXTENSION TEXT; do
 	convert /tmp/splash.tmp \
 		-resize "$DIMENSIONS^" \
 		-gravity center \
@@ -31,5 +31,5 @@ while read -r NAME TEXT; do
 		-stroke "$STROKE_COLOR" \
 		-annotate +0+40 "$TEXT" \
 		-strip \
-		"/tmp/output/splash-$NAME.jpg"
+		"/tmp/splash/$NAME.$EXTENSION"
 done
