@@ -18,6 +18,6 @@ else
 fi
 
 # start stream
-splash stream.png
+splash stream
 python3 /usr/local/bin/youtube-dl -f mp4 -g "$STREAM_URL" |
 xargs -tr omxplayer -o hdmi
