@@ -2,7 +2,7 @@ FROM alpine AS builder
 
 COPY splash.sh /tmp/
 
-RUN apk add --no-cache cargo curl git imagemagick ttf-liberation \
+RUN apk add --no-cache cargo curl dbus-dev git imagemagick ttf-liberation \
     && /tmp/splash.sh \
     && git clone https://github.com/balena-io/wifi-connect.git \
     && cd wifi-connect \
