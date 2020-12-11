@@ -1,8 +1,15 @@
 #!/bin/sh
 
 splash() {
-    fbi -a -d /dev/fb0 "/usr/local/share/splash/splash-$1.jpg" </dev/null
+    fbi -a -d /dev/fb0 -noverbose "/usr/local/share/splash/splash-$1.jpg" </dev/null
 }
+
+# install boot splash
+if [ -b /dev/mmcblk0p1 ]; then
+    mount /dev/mmcblk0p1 /mnt/ &&
+    cp /usr/local/share/splash/splash-boot.jpg /mnt/splash/balena-logo.png &&
+    umount /dev/mmcblk0p1
+fi
 
 # check wifi
 splash wifi
