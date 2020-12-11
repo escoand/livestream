@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # test
-fbi -a -d /dev/fb0 /usr/local/share/splash/test.jpg
+fbi -a -d /dev/fb0 /usr/local/share/splash/test.jpg </dev/null
 
 # check wifi
 iwgetid -r
