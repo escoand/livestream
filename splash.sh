@@ -4,7 +4,7 @@ SPLASH_URL="https://unsplash.com/photos/19iL-6uC5C4/download?force=true"
 STROKE_COLOR=none
 FILL_COLOR=white
 FONT=Liberation-Sans
-DIMENSIONS=1920x1080
+DIMENSIONS=1280x720
 
 # download image
 curl -Ls "$SPLASH_URL" -o /tmp/splash.tmp &&
@@ -31,5 +31,5 @@ while read -r NAME TEXT; do
 		-stroke "$STROKE_COLOR" \
 		-annotate +0+40 "$TEXT" \
 		-strip \
-		"/tmp/output/splash-$NAME.png"
+		"/tmp/output/splash-$NAME.jpg"
 done
