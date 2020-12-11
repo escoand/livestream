@@ -1,6 +1,6 @@
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
 
-RUN install_packages curl dnsmasq omxplayer python3 wireless-tools
+RUN install_packages curl dnsmasq fbida-fbi omxplayer python3 wireless-tools
 
 RUN curl -s https://api.github.com/repos/balena-io/wifi-connect/releases/latest \
     | grep -ho 'browser_download_url": ".*%%RESIN_ARCH%%\.tar\.gz' \
@@ -12,5 +12,6 @@ RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/yout
     && chmod a+rx /usr/local/bin/youtube-dl
 
 COPY start.sh /usr/local/bin/
+COPY images/* /usr/local/share/splash/
 
 CMD /usr/local/bin/start.sh
