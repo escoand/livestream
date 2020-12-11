@@ -6,7 +6,7 @@ SPLASH_SOCK=/var/run/fbi.sock
 rm -f "$SPLASH_SOCK"
 mkfifo "$SPLASH_SOCK" &&
 tail -f "$SPLASH_SOCK" |
-fbi -a -d /dev/fb0 -cachemem 10 -readahead -noverbose /usr/local/share/splash/{wifi.jpg,nowifi.jpg,stream.jpg} &
+fbi -a -d /dev/fb0 -cachemem 10 -readahead -noverbose /usr/local/share/splash/{check,nowifi,stream}.jpg &
 sleep 3
 
 # install boot splash
@@ -24,8 +24,9 @@ iwgetid -r
 if [ $? -eq 0 ]; then
     echo >> "$SPLASH_SOCK"
     echo 'Skipping WiFi Connect'
+    sleep 1
 else
-    echo > "$SPLASH_SOCK"
+    echo >> "$SPLASH_SOCK"
     echo 'Starting WiFi Connect'
     wifi-connect
 fi

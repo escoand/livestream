@@ -13,7 +13,7 @@ curl -Ls "$SPLASH_URL" -o /tmp/splash.tmp &&
 mkdir -p /tmp/splash &&
 cat <<'END' |
 boot	png	Anwendung wird gestartet
-wifi	jpg	Internetverbindung wird getestet
+check	jpg	Internetverbindung wird getestet
 nowifi	jpg	Zum WLAN "WIFI Connect" verbinden und Zugangsdaten eingeben
 stream	jpg	Video wird geladen
 END
