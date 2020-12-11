@@ -3,6 +3,7 @@
 SPLASH_SOCK=/var/run/fbi.sock
 
 # splash chain
+rm -f "$SPLASH_SOCK"
 mkfifo "$SPLASH_SOCK" &&
 tail -f "$SPLASH_SOCK" |
 fbi -a -d /dev/fb0 -cachemem 10 -readahead -noverbose /usr/local/share/splash/{wifi.jpg,nowifi.jpg,stream.jpg} &
