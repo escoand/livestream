@@ -14,7 +14,7 @@ mkdir -p /tmp/splash &&
 cat <<'END' |
 boot	png	Anwendung wird gestartet
 wifi	jpg	Internetverbindung wird getestet
-nowifi	jpg	Bitte zum W-Lan "WIFI Connect" verbinden und Zugangsdaten eingeben
+nowifi	jpg	Zum WLAN "WIFI Connect" verbinden und Zugangsdaten eingeben
 stream	jpg	Video wird geladen
 END
 while read -r NAME EXTENSION TEXT; do
