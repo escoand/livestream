@@ -1,7 +1,11 @@
 #!/bin/sh
 
+splash() {
+    fbi -a -d /dev/fb0 "/usr/local/share/splash/splash-$1.jpg" </dev/null
+)
+
 # check wifi
-fbi -a -d /dev/fb0 /usr/local/share/splash/splash-wifi.png </dev/null
+splash wifi
 iwgetid -r
 
 # wifi config
@@ -9,11 +13,11 @@ if [ $? -eq 0 ]; then
     printf 'Skipping WiFi Connect\n'
 else
     printf 'Starting WiFi Connect\n'
-    fbi -a -d /dev/fb0 /usr/local/share/splash/splash-nowifi.png </dev/null
+    splash nowifi
     wifi-connect
 fi
 
 # start stream
-fbi -a -d /dev/fb0 /usr/local/share/splash/splash-stream.png </dev/null
+splash stream.png
 python3 /usr/local/bin/youtube-dl -f mp4 -g "$STREAM_URL" |
 xargs -tr omxplayer -o hdmi
