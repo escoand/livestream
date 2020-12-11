@@ -5,7 +5,7 @@ COPY splash.sh /tmp/
 RUN apk add --no-cache curl imagemagick ttf-liberation \
     && /tmp/splash.sh
 
-FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine:run
+FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
 
 RUN install_packages curl dnsmasq fbida-fbi omxplayer python3 wireless-tools
 
@@ -18,7 +18,7 @@ RUN curl -s https://api.github.com/repos/balena-io/wifi-connect/releases/latest 
 RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl \
     && chmod a+rx /usr/local/bin/youtube-dl
 
-COPY start.sh /usr/local/bin/
+COPY launch.sh /usr/local/bin/
 COPY --from=builder /tmp/splash/* /usr/local/share/splash/
 
-CMD /usr/local/bin/start.sh
+CMD /usr/local/bin/launch.sh
