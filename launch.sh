@@ -17,12 +17,12 @@ if [ -b /dev/mmcblk0p1 ]; then
 fi
 
 # check wifi
-echo > "$SPLASH_SOCK"
+echo >> "$SPLASH_SOCK"
 iwgetid -r
 
 # wifi config
 if [ $? -eq 0 ]; then
-    echo > "$SPLASH_SOCK"
+    echo >> "$SPLASH_SOCK"
     echo 'Skipping WiFi Connect'
 else
     echo > "$SPLASH_SOCK"
@@ -31,7 +31,7 @@ else
 fi
 
 # start stream
-echo > "$SPLASH_SOCK"
+echo >> "$SPLASH_SOCK"
 python3 /usr/local/bin/youtube-dl -f mp4 -g "$STREAM_URL" |
 xargs -r omxplayer -o hdmi
 
