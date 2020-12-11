@@ -5,7 +5,7 @@ COPY splash.sh /tmp/
 RUN apk add --no-cache curl imagemagick ttf-liberation \
     && /tmp/splash.sh
 
-FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
+FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine:run
 
 RUN install_packages curl dnsmasq fbida-fbi omxplayer python3 wireless-tools
 
