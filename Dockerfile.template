@@ -4,9 +4,9 @@ COPY splash.sh /tmp/
 
 RUN apk add --no-cache cargo curl dbus-dev git imagemagick ttf-liberation \
     && /tmp/splash.sh \
-    && git clone https://github.com/balena-io/wifi-connect.git \
-    && cd wifi-connect \
-    && cargo build --release
+    #&& git clone https://github.com/balena-io/wifi-connect.git:v4.4.4 \
+    #&& cd wifi-connect \
+    #&& cargo build --release
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
 
