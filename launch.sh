@@ -32,8 +32,7 @@ fi
 echo >> "$SPLASH_SOCK"
 VIDEO=$(youtube-dl -f mp4 -g "$STREAM_URL" 2>&1)
 case "$VIDEO" in
-    http://*)
-    https://*)
+    http*)
         omxplayer -o hdmi "$VIDEO"
         ;;
     *)
