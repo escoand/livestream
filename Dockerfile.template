@@ -1,24 +1,8 @@
-FROM alpine AS builder
-
-COPY splash.sh /tmp/
-
-RUN apk add --no-cache curl imagemagick ttf-liberation \
-    && /tmp/splash.sh
-
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
 
-RUN install_packages curl dnsmasq fbida-fbi omxplayer python3 wireless-tools
+COPY install.sh /tmp/
 
-RUN curl -s https://api.github.com/repos/balena-io/wifi-connect/releases/latest \
-    | grep -ho 'browser_download_url": ".*%%RESIN_ARCH%%\.tar\.gz' \
-    | cut -d'"' -f3 \
-    | xargs -n1 curl -Ls ./wifi-connect \
-    | tar -xz -C /usr/local/bin/
+RUN /tmp/install.sh \
+    && rm -f /tmp/install.sh
 
-RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl \
-    && chmod a+rx /usr/local/bin/youtube-dl
-
-COPY launch.sh /usr/local/bin/
-COPY --from=builder /tmp/splash/* /usr/local/share/splash/
-
-CMD /usr/local/bin/launch.sh
+CMD /usr/local/bin/livestream
