@@ -10,7 +10,7 @@ DIMENSIONS=1280x720
 curl -Ls "$SPLASH_URL" -o /tmp/splash.tmp &&
 
 # create splash images
-mkdir -p /tmp/splash &&
+mkdir -p /usr/local/share/splash &&
 cat <<'END' |
 boot	png	Anwendung wird gestartet
 check	jpg	Internetverbindung wird getestet
@@ -31,5 +31,7 @@ while read -r NAME EXTENSION TEXT; do
 		-stroke "$STROKE_COLOR" \
 		-annotate +0+40 "$TEXT" \
 		-strip \
-		"/tmp/splash/$NAME.$EXTENSION"
+		"/usr/local/share/splash/$NAME.$EXTENSION"
 done
+
+rm -f /tmp/splash.tmp
