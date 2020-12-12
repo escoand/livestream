@@ -7,7 +7,7 @@ apk add --no-cache curl dnsmasq fbida-fbi hostapd imagemagick omxplayer py3-pip 
 pip install youtube-dl
 
 # livestream
-curl -Ls -o /usr/local/bin/livestream https://raw.githubusercontent.com/escoand/livestream/master/launch.sh
+curl -Ls -o /usr/local/bin/livestream https://raw.githubusercontent.com/escoand/livestream/master/livestream.sh
 chmod +x /usr/local/bin/livestream
 
 # splash
