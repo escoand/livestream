@@ -3,7 +3,7 @@
 # requirements
 grep -q '^http.*/community$' ||
 sed -n 's|^\(http.*\)/main$|\1/community|p' /etc/apk/repositories >>/etc/apk/repositories
-apk add --no-cache curl dnsmasq fbida-fbi hostapd imagemagick omxplayer py3-pip python3
+apk add --no-cache curl dnsmasq fbida-fbi hostapd imagemagick omxplayer py3-pip ttf-liberation
 pip install youtube-dl
 
 # livestream
@@ -15,7 +15,7 @@ curl -Ls https://raw.githubusercontent.com/escoand/livestream/master/splash.sh |
 sh -es
 
 # clean
-apk del imagemagick
+apk del imagemagick ttf-liberation
 
 # persist if installed
 if ! command -v rc-update >/dev/null; then
