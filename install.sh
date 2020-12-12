@@ -23,6 +23,7 @@ if command -v rc-update lbu >/dev/null; then
 #!/sbin/openrc-run
 command=/usr/local/bin/livestream
 command_background=true
+pidfile=/run/$RC_SVCNAME/$RC_SVCNAME.pid
 END
     chmod +x /etc/init.d/livestream
     rc-update add livestream default
