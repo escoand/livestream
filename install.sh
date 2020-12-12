@@ -3,7 +3,7 @@
 # requirements
 grep -q '^http.*/community$' ||
 sed -n 's|^\(http.*\)/main$|\1/community|p' /etc/apk/repositories >>/etc/apk/repositories
-apk add --no-cache curl dnsmasq fbida-fbi hostapd imagemagick omxplayer py3-pip ttf-liberation
+apk add --no-cache curl dnsmasq fbida-fbi hostapd imagemagick omxplayer py3-pip ttf-liberation wireless-tools
 pip install youtube-dl
 
 # livestream

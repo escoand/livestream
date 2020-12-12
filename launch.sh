@@ -1,20 +1,17 @@
-#!/bin/bash
+#!/bin/sh
 
 SPLASH_SOCK=/var/run/fbi.sock
+SPLASH_DIR=/usr/local/share/splash
 
 # splash chain
 rm -f "$SPLASH_SOCK"
 mkfifo "$SPLASH_SOCK" &&
 tail -f "$SPLASH_SOCK" |
-fbi -a -d /dev/fb0 -cachemem 10 -readahead -noverbose /usr/local/share/splash/{check,nowifi,stream}.jpg &
+fbi -a -d /dev/fb0 -cachemem 10 -readahead -noverbose \
+    "$SPLASH_DIR/check.jpg" \
+    "$SPLASH_DIR/nowifi.jpg" \
+    "$SPLASH_DIR/stream.jpg" &
 sleep 1
-
-# install boot splash
-if [ -b /dev/mmcblk0p1 ]; then
-    mount /dev/mmcblk0p1 /mnt/ &&
-    cp /usr/local/share/splash/boot.png /mnt/splash/balena-logo.png &&
-    umount /dev/mmcblk0p1
-fi
 
 # check wifi
 echo >> "$SPLASH_SOCK"

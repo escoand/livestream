@@ -5,4 +5,9 @@ COPY install.sh /tmp/
 RUN /tmp/install.sh \
     && rm -f /tmp/install.sh
 
-CMD /usr/local/bin/livestream
+CMD sh -c ' \
+    mount /dev/mmcblk0p1 /mnt/ \
+    && cp /usr/local/share/splash/boot.png /mnt/splash/balena-logo.png \
+    && umount /dev/mmcblk0p1 \
+    ; /usr/local/bin/livestream \
+    '
