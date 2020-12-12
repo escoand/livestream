@@ -3,7 +3,7 @@
 # requirements
 grep -q '^http.*/community$' ||
 sed -n 's|^\(http.*\)/main$|\1/community|p' /etc/apk/repositories >>/etc/apk/repositories
-apk add --no-cache curl dnsmasq fbida-fbi hostapd omxplayer py3-pip python3
+apk add --no-cache curl dnsmasq fbida-fbi hostapd imagemagick omxplayer py3-pip python3
 pip install youtube-dl
 
 # livestream
@@ -19,6 +19,9 @@ rc-update add livestream default
 # splash
 curl -Ls https://raw.githubusercontent.com/escoand/livestream/master/splash.sh |
 sh -s
+
+# clean
+apk del imagemagick
 
 # persist
 lbu add /etc/init.d/livestream /usr/local/bin/livestream /usr/local/share/splash/
