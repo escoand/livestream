@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 SPLASH_URL="https://unsplash.com/photos/19iL-6uC5C4/download?force=true"
 STROKE_COLOR=none

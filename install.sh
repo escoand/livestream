@@ -18,7 +18,7 @@ sh -es
 apk del imagemagick ttf-liberation
 
 # persist if installed
-if ! command -v rc-update >/dev/null; then
+if command -v rc-update lbu >/dev/null; then
     cat <<'END' >/etc/init.d/livestream
 #!/sbin/openrc-run
 command=/usr/local/bin/livestream
