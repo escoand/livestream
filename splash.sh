@@ -7,7 +7,7 @@ FONT=Liberation-Sans
 DIMENSIONS=1280x720
 
 # download image
-curl -Ls "$SPLASH_URL" -o /tmp/splash.tmp &&
+wget -qO /tmp/splash.tmp "$SPLASH_URL" &&
 
 # create splash images
 mkdir -p /usr/local/share/splash &&
