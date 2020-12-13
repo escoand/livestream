@@ -6,12 +6,10 @@ splash() {
 
 # wifi config
 splash check
-if iwgetid -r; then
-    echo 'Skipping WiFi Connect'
-else
+if ! iwgetid -r; then
     splash nowifi
-    echo 'Starting WiFi Connect'
     ifconfig wlan0 192.168.99.1 netmask 255.255.255.0 up
+    sleep 5
     hostapd -B /usr/local/etc/hostapd.conf
     dnsmasq -C /usr/local/etc/dnsmasq.conf -d
     sleep 120
