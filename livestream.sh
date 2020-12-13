@@ -11,6 +11,7 @@ if iwgetid -r; then
 else
     splash nowifi
     echo 'Starting WiFi Connect'
+    ifconfig wlan0 up
     hostapd -B /usr/local/etc/hostapd.conf
     dnsmasq -C /usr/local/etc/dnsmasq.conf -d
     sleep 120
