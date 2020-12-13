@@ -3,15 +3,15 @@
 # requirements
 grep -q '^http.*/community$' ||
 sed -n 's|^\(http.*\)/main$|\1/community|p' /etc/apk/repositories >>/etc/apk/repositories
-apk add --no-cache curl dnsmasq fbida-fbi hostapd imagemagick omxplayer py3-pip ttf-liberation wireless-tools
+apk add --no-cache dnsmasq fbida-fbi hostapd imagemagick omxplayer py3-pip ttf-liberation wireless-tools
 pip install youtube-dl
 
 # livestream
-curl -Ls -o /usr/local/bin/livestream https://raw.githubusercontent.com/escoand/livestream/master/livestream.sh
+wget -qO /usr/local/bin/livestream https://raw.githubusercontent.com/escoand/livestream/master/livestream.sh
 chmod +x /usr/local/bin/livestream
 
 # splash
-curl -Ls https://raw.githubusercontent.com/escoand/livestream/master/splash.sh |
+wget -qO- https://raw.githubusercontent.com/escoand/livestream/master/splash.sh |
 sh -es
 
 # clean
