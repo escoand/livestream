@@ -1,21 +1,21 @@
 #!/bin/sh -e
 
-SPLASH_SOCK=/run/livestream/fbi.sock
-SPLASH_DIR=/usr/local/share/splash
+splash() {
+    fbv -cefi "/usr/local/share/splash/$1.jpg" </dev/null
+}
 
 # wifi config
-fbv -cei "$SPLASH_DIR/check.jpg"
-echo >> "$SPLASH_SOCK"
+splash check
 if iwgetid -r; then
     echo 'Skipping WiFi Connect'
 else
-    fbv -cei "$SPLASH_DIR/wifi.jpg"
+    splash wifi
     echo 'Starting WiFi Connect'
     wifi-connect
 fi
 
 # start stream
-fbv -cei "$SPLASH_DIR/stream.jpg"
+splash stream
 VIDEO=$(youtube-dl -f mp4 -g "$STREAM_URL" 2>&1)
 case "$VIDEO" in
     http*)
