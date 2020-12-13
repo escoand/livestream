@@ -1,7 +1,7 @@
-#!/bin/sh -e
+#!/bin/sh
 
 splash() {
-    fbv -cefi "/usr/local/share/splash/$1.jpg" </dev/null
+    fbv -cefir "/usr/local/share/splash/$1.jpg" </dev/null
 }
 
 # wifi config
@@ -9,7 +9,7 @@ splash check
 if iwgetid -r; then
     echo 'Skipping WiFi Connect'
 else
-    splash wifi
+    splash nowifi
     echo 'Starting WiFi Connect'
     wifi-connect
 fi
