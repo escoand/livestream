@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 splash() {
     fbv -cefir "/usr/local/share/splash/$1.jpg" </dev/null
