@@ -2,7 +2,7 @@ FROM alpine AS builder
 
 COPY splash.sh /tmp/
 
-RUN apk add --no-cache gcc git imagemagick libjpeg-turbo-dev libpng-dev make ttf-liberation \
+RUN apk add --no-cache g++ git imagemagick libjpeg-turbo-dev libpng-dev make ttf-liberation \
     && /tmp/splash.sh \
     && git clone https://github.com/godspeed1989/fbv.git /tmp/fbv \
     && cd /tmp/fbv \
