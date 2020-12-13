@@ -11,7 +11,9 @@ if iwgetid -r; then
 else
     splash nowifi
     echo 'Starting WiFi Connect'
-    wifi-connect
+    hostapd -B /usr/local/etc/hostapd.conf
+    dnsmasq -C /usr/local/etc/dnsmasq.conf -d
+    sleep 120
 fi
 
 # start stream

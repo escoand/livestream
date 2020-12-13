@@ -12,6 +12,7 @@ RUN apk add --no-cache g++ git imagemagick libjpeg-turbo-dev libpng-dev linux-he
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
 
 COPY livestream.sh /usr/local/bin/livestream
+COPY dnsmasq.conf hostapd.conf /usr/local/etc/
 COPY --from=builder /tmp/fbv/fbv /usr/local/bin/
 COPY --from=builder /usr/local/share/splash/* /usr/local/share/splash/
 
