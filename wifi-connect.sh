@@ -1,6 +1,11 @@
 #!/bin/sh
 
+# disable Network Manager wireless
+export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+dbus-send --system --print-reply --dest=org.freedesktop.NetworkManager /org/freedesktop/NetworkManager org.freedesktop.DBus.Properties.Set string:"org.freedesktop.NetworkManager" string:"WirelessEnabled" variant:boolean:false
+
 # setup wifi
+rfkill unblock wlan
 ifconfig wlan0 down
 ifconfig wlan0 192.168.99.1 netmask 255.255.255.0 up
 sleep 5
