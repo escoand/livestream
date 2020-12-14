@@ -54,7 +54,7 @@ while true; do
     KEY=$(echo "$POSTDATA" | grep ^password= | cut -d= -f2-)
 
     # config wifi
-    if [ -n "$SSID" -a -n "$KEY" ]; then
+    if [ -n "$SSID" ] && [ -n "$KEY" ]; then
         UUID=$(cat /proc/sys/kernel/random/uuid)
         gdbus call --system \
            --dest org.freedesktop.NetworkManager \
