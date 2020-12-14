@@ -3,7 +3,7 @@
 cat >&2
 
 cat <<END
-200 OK
+HTTP/1.0 200 OK
 
 <html>
 <head>
