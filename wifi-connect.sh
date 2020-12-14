@@ -41,7 +41,7 @@ while true; do
         echo '</style>'
         echo '</head>'
         echo '<body>'
-        echo '<form method="post" action="#">'
+        echo '<form action="" method="post">'
         echo '<label>Netzwerk:</label>'
         echo '<select name="network">'
         iwlist wlan0 scan | sed -n 's|^.*ESSID:"\([^"]*\)"$|<option>\1</option>|p' | sort -u
