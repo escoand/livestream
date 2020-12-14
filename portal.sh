@@ -1,9 +1,8 @@
 #!/bin/sh
 
-cat >&2
-
-cat <<END
+cat <<'END'
 HTTP/1.0 200 OK
+Connection: close
 
 <html>
 <head>
@@ -13,7 +12,9 @@ HTTP/1.0 200 OK
 <form method="post" action="#">
 <label>Netzwerk:
 <select name="network">
-$(iwlist wlan0 scan | sed -n 's|^.*ESSID:"\([^"]*\)"$|<option>\1</option>|p' | sort -u)
+END
+iwlist wlan0 scan | sed -n 's|^.*ESSID:"\([^"]*\)"$|<option>\1</option>|p' | sort -u
+cat <<'<END'
 </select>
 </label>
 <label>Passwort:

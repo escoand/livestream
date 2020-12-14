@@ -16,8 +16,10 @@ if ! iwgetid -r; then
     PID_HOSTAPD=$!
     dnsmasq -dk -C /usr/local/etc/dnsmasq.conf &
     PID_DNSMASQ=$!
-    nc -lk -p 80 -e portal
-    kill $PID_HOSTAPD $PID_DNSMASQ
+    ( while true; do portal | nc -l -p 80; done ) &
+    PID_PORTAL=$!
+    sleep 600
+    kill $PID_HOSTAPD $PID_DNSMASQ $PID_PORTAL
 fi
 
 # start stream
