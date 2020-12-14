@@ -16,6 +16,7 @@ ifconfig wlan0 192.168.99.1 netmask 255.255.255.0 up
 sleep 5
 
 # start services
+# https://github.com/balena-io-playground/access-point-example
 hostapd /usr/local/etc/hostapd.conf &
 PID_HOSTAPD=$!
 dnsmasq -dk -C /usr/local/etc/dnsmasq.conf &

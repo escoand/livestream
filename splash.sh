@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-SPLASH_URL="https://unsplash.com/photos/19iL-6uC5C4/download?force=true"
+SPLASH_URL=${SPLASH_URL:-https://unsplash.com/photos/27HiryxnHJk/download?force=true}
 STROKE_COLOR=none
 FILL_COLOR=white
 FONT=Liberation-Sans
@@ -14,7 +14,7 @@ mkdir -p /usr/local/share/splash &&
 cat <<'END' |
 boot	png	Anwendung wird gestartet
 check	jpg	Internetverbindung wird getestet
-nowifi	jpg	Zum WLAN "WIFI Connect" verbinden und Zugangsdaten eingeben
+nowifi	jpg	Zum WLAN "Livestream" verbinden und Zugangsdaten eingeben
 stream	jpg	Video wird geladen
 END
 while read -r NAME EXTENSION TEXT; do

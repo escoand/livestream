@@ -1,7 +1,5 @@
 #!/bin/sh -x
 
-# default config https://github.com/balena-io-playground/access-point-example
-
 splash() {
     fbv -cefir "/usr/local/share/splash/$1.jpg" </dev/null
 }
@@ -21,7 +19,7 @@ case "$VIDEO" in
         omxplayer -o hdmi "$VIDEO"
         ;;
     *)
-        echo "$VIDEO" >&2
+        echo "$VIDEO" >/dev/tty2
         ;;
 esac 
 
