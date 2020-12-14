@@ -1,9 +1,10 @@
 FROM alpine AS builder
 
+RUN apk add --no-cache g++ git imagemagick libjpeg-turbo-dev libpng-dev linux-headers make ttf-liberation
+
 COPY splash.sh /tmp/
 
-RUN apk add --no-cache g++ git imagemagick libjpeg-turbo-dev libpng-dev linux-headers make ttf-liberation \
-    && /tmp/splash.sh \
+RUN /tmp/splash.sh \
     && git clone https://github.com/godspeed1989/fbv.git /tmp/fbv \
     && cd /tmp/fbv \
     && ./configure \
@@ -11,14 +12,14 @@ RUN apk add --no-cache g++ git imagemagick libjpeg-turbo-dev libpng-dev linux-he
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
 
+RUN apk add --no-cache dnsmasq hostapd libjpeg libpng omxplayer py3-pip wireless-tools \
+    && pip install youtube-dl
+
 COPY livestream.sh /usr/local/bin/livestream
 COPY portal.sh /usr/local/bin/portal
 COPY dnsmasq.conf hostapd.conf /usr/local/etc/
 COPY --from=builder /tmp/fbv/fbv /usr/local/bin/
 COPY --from=builder /usr/local/share/splash/* /usr/local/share/splash/
-
-RUN apk add --no-cache dnsmasq hostapd libjpeg libpng omxplayer py3-pip wireless-tools \
-    && pip install youtube-dl
 
 CMD sh -c ' \
     mount /dev/mmcblk0p1 /mnt/ \
