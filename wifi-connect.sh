@@ -28,20 +28,21 @@ while true; do
         echo 'HTTP/1.0 200 OK'
         echo 'Connection: close'
         echo
+        echo '<!doctype html>'
         echo '<html>'
         echo '<head>'
         echo '<title>WLAN Konfiguration</title>'
+        echo '<meta name="viewport" content="width=device-width, user-scalable=no" />'
+        echo '<style>body{font-family:sans;text-align:center;}</style>'
         echo '</head>'
         echo '<body>'
         echo '<form method="post" action="#">'
-        echo '<label>Netzwerk:'
+        echo '<label>Netzwerk:</label>'
         echo '<select name="network">'
         iwlist wlan0 scan | sed -n 's|^.*ESSID:"\([^"]*\)"$|<option>\1</option>|p' | sort -u
         echo '</select>'
-        echo '</label>'
-        echo '<label>Passwort:'
+        echo '<label>Passwort:</label>'
         echo '<input type="text" name="password" />'
-        echo '</label>'
         echo '<input type="submit" value="Absenden" />'
         echo '</form>'
         echo '</body>'
@@ -58,10 +59,15 @@ while true; do
     # config wifi
     if [ -n "$SSID" ] && [ -n "$KEY" ]; then
         UUID=$(cat /proc/sys/kernel/random/uuid)
+        DEVICE=$(gdbus call --system \
+           --dest org.freedesktop.NetworkManager \
+           --object-path /org/freedesktop/NetworkManager \
+           --method org.freedesktop.NetworkManager.GetDeviceByIpIface \
+           wlan0)
         gdbus call --system \
            --dest org.freedesktop.NetworkManager \
-           --object-path /org/freedesktop/NetworkManager/Settings \
-           --method org.freedesktop.NetworkManager.Settings.AddConnection \
+           --object-path /org/freedesktop/NetworkManager \
+           --method org.freedesktop.NetworkManager.AddAndActivateConnection \
            "{
              '802-11-wireless': {
                'mode': <'infrastructure'>,
@@ -84,7 +90,7 @@ while true; do
              'ipv6': {
                'method': <'auto'>
              }
-           }"
+           }" "$DEVICE" /
         gdbus call --system \
            --dest org.freedesktop.NetworkManager \
            --object-path /org/freedesktop/NetworkManager \
