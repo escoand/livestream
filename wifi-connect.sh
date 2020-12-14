@@ -64,7 +64,7 @@ while true; do
              '802-11-wireless': {
                'mode': <'infrastructure'>,
                'security': <'802-11-wireless-security'>,
-               'ssid': <b'$SSID'>
+               'ssid': <'$SSID'>
              },
              '802-11-wireless-security': {
                'auth-alg': <'open'>, 
