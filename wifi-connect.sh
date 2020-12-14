@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# disable Network Manager wireless
 export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
-dbus-send --system --print-reply --dest=org.freedesktop.NetworkManager \
-    /org/freedesktop/NetworkManager \
-    org.freedesktop.DBus.Properties.Set \
-    string:"org.freedesktop.NetworkManager" \
-    string:"WirelessEnabled" \
-    variant:boolean:false
+
+# disable Network Manager wireless
+gdbus call --system \
+   --dest org.freedesktop.NetworkManager \
+   --object-path /org/freedesktop/NetworkManager \
+   --method org.freedesktop.DBus.Properties.Set \
+    org.freedesktop.NetworkManager WirelessEnabled '<false>'
 
 # setup wifi
 rfkill unblock wlan
@@ -55,8 +55,39 @@ while true; do
 
     # config wifi
     if [ -n "$SSID" -a -n "$KEY" ]; then
-        iwconfig wlan0 essid "$SSID" key "s:$KEY"
-        iwconfig wlan0
+        UUID=$(cat /proc/sys/kernel/random/uuid)
+        gdbus call --system \
+           --dest org.freedesktop.NetworkManager \
+           --object-path /org/freedesktop/NetworkManager/Settings \
+           --method org.freedesktop.NetworkManager.Settings.AddConnection \
+           "{
+             '802-11-wireless': {
+               'mode': <'infrastructure'>,
+               'security': <'802-11-wireless-security'>,
+               'ssid': <b'$SSID'>
+             },
+             '802-11-wireless-security': {
+               'auth-alg': <'open'>, 
+               'key-mgmt': <'wpa-psk'>,
+               'psk': <'$KEY'>
+             },
+             'connection': {
+               'id': <'$SSID'>,
+               'type': <'802-11-wireless'>,
+               'uuid': <'$UUID'>
+             },
+             'ipv4': {
+               'method': <'auto'>
+             },
+             'ipv6': {
+               'method': <'auto'>
+             }
+           }"
+        gdbus call --system \
+           --dest org.freedesktop.NetworkManager \
+           --object-path /org/freedesktop/NetworkManager \
+           --method org.freedesktop.DBus.Properties.Set \
+            org.freedesktop.NetworkManager WirelessEnabled '<true>'
         break
     fi
 done
