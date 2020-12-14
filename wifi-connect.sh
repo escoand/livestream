@@ -48,7 +48,7 @@ while true; do
         } |
         nc -l -p 80 |
         sed '1,/^$/d' |
-        tr & '\n'
+        tr '&' '\n'
     )
     SSID=$(echo "$POSTDATA" | grep ^network= | cut -d= -f2-)
     KEY=$(echo "$POSTDATA" | grep ^password= | cut -d= -f2-)
