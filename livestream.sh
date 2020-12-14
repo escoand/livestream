@@ -11,9 +11,13 @@ if iwgetid -r; then
 else
     splash nowifi
     echo 'Starting WiFi Connect'
-    hostapd -B /usr/local/etc/hostapd.conf
-    dnsmasq -C /usr/local/etc/dnsmasq.conf -d
+    # default config https://github.com/balena-io-playground/access-point-example
+    hostapd /usr/local/etc/hostapd.conf &
+    PID_HOSTAPD=$!
+    dnsmasq -C /usr/local/etc/dnsmasq.conf -d -k &
+    PID_DNSMASQ=$!
     sleep 120
+    kill $PID_HOSTAPD $PID_DNSMASQ
 fi
 
 # start stream
