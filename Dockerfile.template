@@ -16,7 +16,7 @@ RUN apk add --no-cache dnsmasq hostapd libjpeg libpng omxplayer py3-pip wireless
     && pip install youtube-dl
 
 COPY livestream.sh /usr/local/bin/livestream
-COPY portal.sh /usr/local/bin/portal
+COPY wifi-connect.sh /usr/local/bin/wifi-connect
 COPY dnsmasq.conf hostapd.conf /usr/local/etc/
 COPY --from=builder /tmp/fbv/fbv /usr/local/bin/
 COPY --from=builder /usr/local/share/splash/* /usr/local/share/splash/

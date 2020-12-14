@@ -10,16 +10,7 @@ splash() {
 splash check
 if ! iwgetid -r; then
     splash nowifi
-    ifconfig wlan0 192.168.99.1 netmask 255.255.255.0 up
-    sleep 5
-    hostapd /usr/local/etc/hostapd.conf &
-    PID_HOSTAPD=$!
-    dnsmasq -dk -C /usr/local/etc/dnsmasq.conf &
-    PID_DNSMASQ=$!
-    ( while true; do portal | nc -l -p 80; done ) &
-    PID_PORTAL=$!
-    sleep 600
-    kill $PID_HOSTAPD $PID_DNSMASQ $PID_PORTAL
+    wifi-connect
 fi
 
 # start stream
