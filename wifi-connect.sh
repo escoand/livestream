@@ -48,6 +48,7 @@ while true; do
         echo '</html>'
         } |
         nc -l -p 80 |
+	tr -d '\r' |
         sed '1,/^$/d' |
         tr '&' '\n'
     )
@@ -65,7 +66,7 @@ while true; do
              '802-11-wireless': {
                'mode': <'infrastructure'>,
                'security': <'802-11-wireless-security'>,
-               'ssid': <'$SSID'>
+               'ssid': <b'$SSID'>
              },
              '802-11-wireless-security': {
                'auth-alg': <'open'>, 
