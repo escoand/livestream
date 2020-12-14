@@ -1,22 +1,22 @@
 #!/bin/sh -x
 
+# default config https://github.com/balena-io-playground/access-point-example
+
 splash() {
     fbv -cefir "/usr/local/share/splash/$1.jpg" </dev/null
 }
 
 # wifi config
 splash check
-if iwgetid -r; then
-    echo 'Skipping WiFi Connect'
-else
+if ! iwgetid -r; then
     splash nowifi
-    echo 'Starting WiFi Connect'
-    # default config https://github.com/balena-io-playground/access-point-example
+    ifconfig wlan0 192.168.99.1 netmask 255.255.255.0 up
+    sleep 5
     hostapd /usr/local/etc/hostapd.conf &
     PID_HOSTAPD=$!
-    dnsmasq -C /usr/local/etc/dnsmasq.conf -d -k &
+    dnsmasq -dk -C /usr/local/etc/dnsmasq.conf &
     PID_DNSMASQ=$!
-    sleep 120
+    nc -lk -p 80 -e portal
     kill $PID_HOSTAPD $PID_DNSMASQ
 fi
 
