@@ -68,8 +68,7 @@ while true; do
            --dest org.freedesktop.NetworkManager \
            --object-path /org/freedesktop/NetworkManager \
            --method org.freedesktop.NetworkManager.GetDeviceByIpIface \
-           wlan0 | tr -d"'" -f2)
-	echo $?
+           wlan0 | cut -d"'" -f2) &&
         gdbus call --system \
            --dest org.freedesktop.NetworkManager \
            --object-path /org/freedesktop/NetworkManager \
@@ -96,14 +95,12 @@ while true; do
              'ipv6': {
                'method': <'auto'>
              }
-           }" "$DEVICE" /
-	echo $?
+           }" "$DEVICE" "/" &&
         gdbus call --system \
            --dest org.freedesktop.NetworkManager \
            --object-path /org/freedesktop/NetworkManager \
            --method org.freedesktop.DBus.Properties.Set \
-            org.freedesktop.NetworkManager WirelessEnabled '<true>'
-	echo $?
+            org.freedesktop.NetworkManager WirelessEnabled '<true>' &&
         break
     fi
 done
