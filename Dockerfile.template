@@ -12,12 +12,12 @@ RUN /tmp/splash.sh \
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
 
-RUN apk add --no-cache dnsmasq hostapd libjpeg libpng omxplayer py3-pip wireless-tools \
+RUN apk add --no-cache dnsmasq libjpeg libpng omxplayer py3-pip wireless-tools \
     && pip install youtube-dl
 
 COPY livestream.sh /usr/local/bin/livestream
 COPY wifi-connect.sh /usr/local/bin/wifi-connect
-COPY dnsmasq.conf hostapd.conf /usr/local/etc/
+COPY dnsmasq.conf /usr/local/etc/
 COPY --from=builder /tmp/fbv/fbv /usr/local/bin/
 COPY --from=builder /usr/local/share/splash/* /usr/local/share/splash/
 
