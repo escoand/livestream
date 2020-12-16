@@ -73,25 +73,27 @@ while true; do
         } |
         nc -l -p 80 |
         tr -d '\r' |
-        sed '1,/^$/d; y/+/ /; s/%/\\x/g' |
+        sed '1,/^$/d; y/+/ /; s/%/\\\\x/g' |
         tr '&' '\n' |
-        xargs echo -e
+        xargs -ri echo -e '{}'
     )
     SSID=$(echo "$POSTDATA" | grep ^network= | cut -d= -f2-)
     KEY=$(echo "$POSTDATA" | grep ^password= | cut -d= -f2-)
 
     # config wifi
     if [ -n "$SSID" ] && [ -n "$KEY" ]; then
+        echo "try to connect to <$SSID>"
 
         # create new
         UUID=$(cat /proc/sys/kernel/random/uuid)
+        BYTES=$(printf '%s' "$SSID" | od -An -tx1 | sed -n 'H; ${g;s/[\n ]\{1,\}/,0x/g;s/^,//;p}')
         CONNECTION=$(nm_dbus /org/freedesktop/NetworkManager/Settings org.freedesktop.NetworkManager.Settings.AddConnection \
             "{
               '802-11-wireless': {
                 'hidden': <true>,
                 'mode': <'infrastructure'>,
                 'security': <'802-11-wireless-security'>,
-                'ssid': <b'$SSID'>
+                'ssid': <[byte $BYTES]>
               },
               '802-11-wireless-security': {
                 'auth-alg': <'open'>,
@@ -116,15 +118,19 @@ while true; do
             "$CONNECTION" "$DEVICE" "/" | grep -o "/org/freedesktop/NetworkManager/[^']*")
         while gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE" | grep -q ' State = [01];'; do
             sleep 1
+            echo "still connecting"
         done
 
         # successful
-        gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE" | grep -q ' State = 2;' &&
-        break
+        if gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE" | grep -q ' State = 2;'; then
+            echo "connect successful"
+            break
 
         # next try
-        nm_dbus "$CONNECTION" org.freedesktop.NetworkManager.Settings.Connection.Delete
-        echo "failed to connect to wifi" >&2
+        else
+            nm_dbus "$CONNECTION" org.freedesktop.NetworkManager.Settings.Connection.Delete
+            echo "connect failed"
+        fi
     fi
 done
 
