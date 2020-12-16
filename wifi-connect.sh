@@ -119,7 +119,7 @@ while true; do
         done
 
         # successful
-        gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE" | grep -q ' State = 2;'; &&
+        gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE" | grep -q ' State = 2;' &&
         break
 
         # next try
