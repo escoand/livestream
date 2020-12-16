@@ -61,11 +61,8 @@ while true; do
         echo '<label>Netzwerk:</label>'
         echo '<select name="network">'
         iwlist wlan0 scan |
-        sed -n 's|.* ESSID:"\([^"]*\)".*|<option>\1</option>|p'
-        #sed -n '/^ *Cell /{h;} / ESSID:/{H;g;s|.* Address: \([0-9A-F:]*\).* ESSID:"\([^"]*\)".*|\1 \2|p}' |
-        #sort -t' ' -k2 |
-        #uniq -f1 |
-        #sed 's| |">|; s|^|<option value="|; s|$|</option>|'
+        sed -n 's|.* ESSID:"\([^"]*\)".*|<option>\1</option>|p' |
+        sort -u
         echo '</select>'
         echo '<label>Passwort:</label>'
         echo '<input type="text" name="password" />'
@@ -76,8 +73,9 @@ while true; do
         } |
         nc -l -p 80 |
         tr -d '\r' |
-        sed '1,/^$/d' |
-        tr '&' '\n'
+        sed '1,/^$/d; y/+/ /; s/%/\\x/g' |
+        tr '&' '\n' |
+        xargs echo -e
     )
     SSID=$(echo "$POSTDATA" | grep ^network= | cut -d= -f2-)
     KEY=$(echo "$POSTDATA" | grep ^password= | cut -d= -f2-)
@@ -116,10 +114,12 @@ while true; do
         # activate new
         ACTIVE=$(nm_dbus /org/freedesktop/NetworkManager org.freedesktop.NetworkManager.ActivateConnection \
             "$CONNECTION" "$DEVICE" "/" | grep -o "/org/freedesktop/NetworkManager/[^']*")
-        sleep 3
+        while gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE" | grep -q ' State = [01];'; do
+            sleep 1
+        done
 
         # successful
-        gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE" &&
+        gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE" | grep -q ' State = 2;'; &&
         break
 
         # next try
