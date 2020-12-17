@@ -4,9 +4,6 @@ splash() {
     fbv -cefir "/usr/local/share/splash/$1.jpg" </dev/null
 }
 
-set -E
-trap "splash error; sleep 10; exit 1" ERR
-
 # wifi config
 splash check
 if ! ping -c1 google.com &>/dev/null; then
@@ -21,7 +18,8 @@ VIDEO=$(youtube-dl -f mp4 -g "$STREAM_URL" 2>&1)
 echo "result was $VIDEO"
 case "$VIDEO" in
     http*)
-        omxplayer -o hdmi "$VIDEO"
+        omxplayer -o hdmi "$VIDEO" ||
+        splash error
         ;;
     *)
         echo "$VIDEO" >/dev/tty2
