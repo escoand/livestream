@@ -16,6 +16,7 @@ boot	png	Anwendung wird gestartet
 check	jpg	Internetverbindung wird getestet
 nowifi	jpg	Zum WLAN "Livestream" verbinden und Zugangsdaten eingeben
 stream	jpg	Video wird geladen
+error	jpg	Leider gab es einen Fehler
 END
 while read -r NAME EXTENSION TEXT; do
 	convert /tmp/splash.tmp \
