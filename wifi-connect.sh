@@ -10,6 +10,7 @@ nm_dbus() {
 }
 
 # setup wifi
+echo "starting access point"
 DEVICE=$(nm_dbus /org/freedesktop/NetworkManager org.freedesktop.NetworkManager.GetDeviceByIpIface wlan0 | grep -o "/org/freedesktop/NetworkManager/Devices/[^']*")
 SSID_AP=Livestream
 UUID_AP=$(cat /proc/sys/kernel/random/uuid)
@@ -32,11 +33,18 @@ CONNECTION_AP=$(nm_dbus /org/freedesktop/NetworkManager org.freedesktop.NetworkM
        }]>
      }
    }" "$DEVICE" "/" | grep -o "/org/freedesktop/NetworkManager/Settings/[^']*")
-sleep 3
+while ! gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE; exit 0" | grep -q ' State = 2;'; do
+    sleep 1
+done
+echo "access point started"
 
 # start services
+echo "start DNS server"
 dnsmasq -dk -C /usr/local/etc/dnsmasq.conf &
 PID_DNSMASQ=$!
+
+# clean up on exit
+trap "kill $PID_DNSMASQ; nm_dbus $CONNECTION_AP org.freedesktop.NetworkManager.Settings.Connection.Delete" EXIT SIGTERM
 
 # portal
 while true; do
@@ -133,7 +141,3 @@ while true; do
         fi
     fi
 done
-
-# stop services
-kill $PID_DNSMASQ
-nm_dbus "$CONNECTION_AP" org.freedesktop.NetworkManager.Settings.Connection.Delete
