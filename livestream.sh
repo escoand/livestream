@@ -22,7 +22,7 @@ case "$VIDEO" in
         splash error
         ;;
     *)
-        echo "$VIDEO" >/dev/tty2
+        echo "$VIDEO" >/dev/tty1
         ;;
 esac 
 
