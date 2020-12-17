@@ -42,7 +42,8 @@ dnsmasq -dk -C /usr/local/etc/dnsmasq.conf &
 PID_DNSMASQ=$!
 
 # clean up on exit
-trap "kill $PID_DNSMASQ; nm_dbus $CONNECTION_AP org.freedesktop.NetworkManager.Settings.Connection.Delete" EXIT SIGTERM
+trap "kill $PID_DNSMASQ; nm_dbus $CONNECTION_AP org.freedesktop.NetworkManager.Settings.Connection.Delete; exit 0" EXIT
+trap "kill $PID_DNSMASQ; nm_dbus $CONNECTION_AP org.freedesktop.NetworkManager.Settings.Connection.Delete; exit 1" SIGTERM
 
 # portal
 while true; do
