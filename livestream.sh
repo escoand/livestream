@@ -1,8 +1,10 @@
-#!/bin/sh -x
+#!/bin/sh -E
 
 splash() {
     fbv -cefir "/usr/local/share/splash/$1.jpg" </dev/null
 }
+
+trap "splash error" ERR
 
 # wifi config
 splash check
@@ -13,7 +15,9 @@ fi
 
 # start stream
 splash stream
+echo "load url $STREAM_URL"
 VIDEO=$(youtube-dl -f mp4 -g "$STREAM_URL" 2>&1)
+echo "result was $VIDEO"
 case "$VIDEO" in
     http*)
         omxplayer -o hdmi "$VIDEO"
