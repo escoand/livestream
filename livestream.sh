@@ -5,7 +5,7 @@ splash() {
 }
 
 set -E
-trap "splash error" ERR
+trap "splash error; sleep 10; exit 1" ERR
 
 # wifi config
 splash check
