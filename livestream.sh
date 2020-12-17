@@ -6,7 +6,7 @@ splash() {
 
 # wifi config
 splash check
-if ! ping google.com &>/dev/null; then
+if ! ping -c1 google.com &>/dev/null; then
     splash nowifi
     wifi-connect
 fi
