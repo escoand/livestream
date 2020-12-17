@@ -33,9 +33,7 @@ CONNECTION_AP=$(nm_dbus /org/freedesktop/NetworkManager org.freedesktop.NetworkM
        }]>
      }
    }" "$DEVICE" "/" | grep -o "/org/freedesktop/NetworkManager/Settings/[^']*")
-while ! gdbus introspect -y -d org.freedesktop.NetworkManager -p -o "$ACTIVE; exit 0" | grep -q ' State = 2;'; do
-    sleep 1
-done
+sleep 3
 echo "access point started"
 
 # start services
