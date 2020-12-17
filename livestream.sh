@@ -1,9 +1,10 @@
-#!/bin/sh -E
+#!/bin/sh
 
 splash() {
     fbv -cefir "/usr/local/share/splash/$1.jpg" </dev/null
 }
 
+set -E
 trap "splash error" ERR
 
 # wifi config
