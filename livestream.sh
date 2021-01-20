@@ -28,7 +28,7 @@ if [ -n "$START" ] && [ "$START" != null ] && [ "$START" < "$NOW" ]; then
     splash scheduled
     TS_NOW=$(date +%s)
     TS_START=$(date +%s -d "$START")
-    sleep $(($TS_START - $TS_NOW + 10)
+    sleep $(($TS_START - $TS_NOW + 10))
 fi
 
 # play stream
