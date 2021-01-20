@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-SPLASH_URL=${SPLASH_URL:-https://unsplash.com/photos/27HiryxnHJk/download?force=true}
+SPLASH_URL=${SPLASH_URL:-https://unsplash.com/photos/EOQhsfFBhRk/download?force=true}
 STROKE_COLOR=none
 FILL_COLOR=white
 FONT=Liberation-Sans
