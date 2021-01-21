@@ -14,26 +14,25 @@ fi
 # get stream start
 splash stream
 echo "load url $STREAM_URL"
-NOW=$(date -u +%Y-%m-%dT%H:%M:%S+00:00)
+NOW=$(date -u +%s)
 START=$(
     youtube-dl -is --dump-pages "$STREAM_URL" |
     grep -v '^\[' |
     base64 -d |
     sed -n 's#.*var ytInitialPlayerResponse *= *\({.*\)#\1#p' |
-    jq -r '.microformat.playerMicroformatRenderer.liveBroadcastDetails.startTimestamp'
-) 2>/dev/null
+    jq -r '.microformat.playerMicroformatRenderer.liveBroadcastDetails.startTimestamp[:19] + "Z" | fromdate?'
+)
 
 # wait for start
-if [ -n "$START" ] && [ "$START" != null ] && [ "$START" < "$NOW" ]; then
-    splash scheduled
-    TS_NOW=$(date +%s)
-    TS_START=$(date +%s -d "$START")
-    sleep $(($TS_START - $TS_NOW + 10))
+if [ -n "$START" ] && [ "$START" != null ] && [ "$START" -gt "$NOW" ]; then
+    START_STR=$(date +"%d.%m.%Y %H:%M" -d @"$START")
+    splash scheduled "$START_STR"
+    sleep $((START - NOW + 10))
 fi
 
 # play stream
 youtube-dl -f mp4 -g "$STREAM_URL" |
-omxplayer -o hdmi "$VIDEO" ||
+xargs omxplayer -o hdmi ||
 splash error
 
 sleep infinity
