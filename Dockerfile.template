@@ -12,7 +12,7 @@ RUN /tmp/splash.sh \
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine:3.12
 
-RUN apk add --no-cache dnsmasq libjpeg libpng omxplayer py3-pip wireless-tools \
+RUN apk add --no-cache dnsmasq jq libjpeg libpng omxplayer py3-pip wireless-tools \
     && pip install youtube-dl
 
 COPY livestream.sh /usr/local/bin/livestream

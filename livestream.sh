@@ -19,7 +19,7 @@ START=$(
     youtube-dl -is --dump-pages "$STREAM_URL" |
     grep -v '^\[' |
     base64 -d |
-    sed -n 's#.*var ytInitialPlayerResponse *= *\({.*\)#\1#p' |
+    sed -n 's#.*var ytInitialPlayerResponse *= *{#{#p' |
     jq -r '.microformat.playerMicroformatRenderer.liveBroadcastDetails.startTimestamp[:19] + "Z" | fromdate?'
 )
 
